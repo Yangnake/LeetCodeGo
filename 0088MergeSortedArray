@@ -1,0 +1,60 @@
+思路1：从头到尾归并 
+
+from typing import List
+
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        # 只需要把nums1的有效个元素复制到nums3就可以了
+        nums3 =  nums1[:m]
+        
+        i = 0
+        j = 0
+        #从前向后归并，比较nums3和nums2前端的元素哪个小，谁小谁出列，覆盖nums1
+        for k in range(m + n):
+            #注意：要把nums3和nums2归并完成的逻辑写在前面，否则会出现数组下标越界的异常
+            if i == m:
+                nums1[k] = nums2[j]
+                j += 1
+            elif j == n:
+                nums1[k] = nums3[i]
+                i += 1
+                
+            elif nums3[i] < nums2[j]:
+                nums1[k] = nums3[i]
+                i += 1
+            else:
+                nums1[k] = nums2[j]
+                j += 1
+
+思路2：从后向前归并，先写数组下标用完的逻辑，否则会出现数组下标异常；
+当nums2数组所有的数都看完的时候，算法终止
+from typing import List
+
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        i = m-1
+        j = n-1
+        #从后向前归并，比较nums1和nums2末尾的元素那个大，谁大谁出列，覆盖nums1
+        for k in range(m+n-1, -1, -1):
+            #注意同样 要把数组越界的逻辑写在最前面，否则会出现数组下标越界异常
+            if i == -1:
+                #这里直接把nums2没有看 的元素复制到nums1即可
+                #我们可以在循环中完成，在 Java中由更好的 方法
+                nums1[k] = nums2[j]
+                j-=1
+            elif j== -1:
+                #注意：这里直接break就行了
+                #因为nums2便利完成以后，nums1剩下的元素就不必再看了
+                break
+            elif nums1[i] > nums2[j]:
+                nums1[k] = nums1[i]
+                i-=1
+            else:
+                nums1[k] = nums2[j]
+                j -= 1
