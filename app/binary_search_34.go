@@ -62,3 +62,19 @@ func searchRange(nums []int, target int) []int {
 	right := lower_bound(nums, target+1)-1
 	return []int{left, right}
 }
+
+// 一个简单的题目：搜索排序数组中的target,如果存在返回其索引，如果不存在返回它应该被插入的位置
+// 其实就是二分查找 深刻理解循环不变量的理论，任何二分问题都能轻松解决
+func searchInsert(nums []int, target int) int {
+	left := 0
+	right := len(nums) - 1
+	for left <= right { // [left, right]
+		mid := left + (right-left)/2
+		if nums[mid] < target {
+			left = mid + 1 //依据循环不变量的理论，left的左侧始终小于target
+		} else {
+			right = mid - 1 //right的右侧始终大于等于target
+		}
+	}
+	return left
+}
