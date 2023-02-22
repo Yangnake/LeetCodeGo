@@ -44,9 +44,7 @@ func eraseOverlapIntervals2(intervals [][]int) int {
 	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]
 	})
-	stack := []int{intervals[0][1]}
-	for i :=1; i<len(intervals); i++ {
-	}
+	return 0
 
 }
 
